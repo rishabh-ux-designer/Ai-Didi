@@ -36,11 +36,11 @@ const topics = [
   { icon: "044fd.svg", title: "Story time", detail: "Imagine a world", tone: "blue" },
 ];
 
-function RobotAvatar({ size = 34, home = false }: { size?: number; home?: boolean }) {
+function RobotAvatar({ size = 34, home = false, drawer = false }: { size?: number; home?: boolean; drawer?: boolean }) {
   const scale = size / 44;
   return (
     <span className={`robot-avatar ${home ? "robot-avatar--home" : ""}`} style={{ width: size, height: size }}>
-      <img src={`${A}/${home ? "03a89" : "7547e"}.svg`} alt="" className="robot-base" />
+      <img src={`${A}/${home ? "03a89" : drawer ? "cc7e4" : "7547e"}.svg`} alt="" className="robot-base" />
       <span className="robot-parts" style={{ transform: `scale(${scale})` }}>
         <img src={`${A}/${home ? "aee6e" : "86644"}.svg`} alt="" className="robot-crown" />
         <img src={`${A}/${home ? "9feb3" : "04c18"}.svg`} alt="" className="robot-body" />
@@ -54,14 +54,128 @@ function RobotAvatar({ size = 34, home = false }: { size?: number; home?: boolea
   );
 }
 
-function Home({ onStart }: { onStart: () => void }) {
+function GreenAvatar() {
+  return (
+    <span className="green-avatar" aria-hidden="true">
+      <img src={`${A}/cc7e4.svg`} alt="" className="green-base" />
+      <img src={`${A}/fa2e2.svg`} alt="" className="green-face" />
+      <img src={`${A}/c8ca7.svg`} alt="" className="green-eye green-eye--right" />
+      <img src={`${A}/11f3f.svg`} alt="" className="green-eye green-eye--left" />
+      <img src={`${A}/01bf6.svg`} alt="" className="green-mouth" />
+      <img src={`${A}/9a2aa.svg`} alt="" className="green-brow green-brow--left" />
+      <img src={`${A}/9a2aa.svg`} alt="" className="green-brow green-brow--right" />
+    </span>
+  );
+}
+
+function ProfileDrawer({
+  open,
+  darkMode,
+  onClose,
+  onDarkModeChange,
+}: {
+  open: boolean;
+  darkMode: boolean;
+  onClose: () => void;
+  onDarkModeChange: (enabled: boolean) => void;
+}) {
+  const [activeProfile, setActiveProfile] = useState("Rishabh");
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
+  return (
+    <div className={`drawer-layer ${open ? "drawer-layer--open" : ""}`} aria-hidden={!open}>
+      <button className="drawer-backdrop" onClick={onClose} aria-label="Close profile menu" tabIndex={open ? 0 : -1} />
+      <aside className="profile-drawer" aria-label="Profile and theme settings" aria-modal="true" role="dialog">
+        <div className="drawer-content">
+          <div className="drawer-top">
+            <div className="drawer-current-profile">
+              <div className="drawer-current-user">
+                <RobotAvatar size={44} home />
+                <div className="drawer-user-copy">
+                  <strong>Rishabh</strong>
+                  <span>Grade 3</span>
+                </div>
+              </div>
+              <button className="drawer-icon-button" aria-label="Edit profile">
+                <img src={`${A}/6c5a1.svg`} alt="" />
+              </button>
+            </div>
+
+            <div className="profile-list">
+              {[
+                { name: "Rishabh", avatar: "robot" },
+                { name: "Rohan", avatar: "green" },
+                { name: "Shivam", avatar: "green" },
+              ].map((profile) => {
+                const selected = activeProfile === profile.name;
+                return (
+                  <button
+                    className="profile-option"
+                    key={profile.name}
+                    onClick={() => setActiveProfile(profile.name)}
+                    aria-pressed={selected}
+                  >
+                    <span className="profile-option-user">
+                      {profile.avatar === "robot" ? <RobotAvatar size={34} drawer /> : <GreenAvatar />}
+                      <span>{profile.name}</span>
+                    </span>
+                    <img src={`${A}/${selected ? "3d536" : "194f3"}.svg`} alt="" className="profile-radio" />
+                  </button>
+                );
+              })}
+              <button className="profile-option add-profile">
+                <span>Add Profile</span>
+                <img src={`${A}/c6492.svg`} alt="" />
+              </button>
+            </div>
+          </div>
+
+          <nav className="drawer-nav" aria-label="Profile options">
+            <button className="drawer-nav-item">
+              <img src={`${A}/f8019.svg`} alt="" className="plans-icon" />
+              <span>Plans and History</span>
+            </button>
+            <div className="drawer-nav-item theme-row">
+              <span className="theme-label">
+                <img src={`${A}/3d5bf.svg`} alt="" />
+                <span>Theme Dark Mode</span>
+              </span>
+              <button
+                className={`theme-toggle ${darkMode ? "theme-toggle--on" : ""}`}
+                onClick={() => onDarkModeChange(!darkMode)}
+                role="switch"
+                aria-checked={darkMode}
+                aria-label="Dark mode"
+              >
+                {darkMode && <img src={`${A}/8e1c0.svg`} alt="" />}
+                {!darkMode && <span className="toggle-knob" />}
+              </button>
+            </div>
+          </nav>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function Home({ onStart, onProfile }: { onStart: () => void; onProfile: () => void }) {
   return (
     <main className="screen home-screen">
       <div className="home-header">
         <button className="plain-button back-home" aria-label="Go back">
           <img src={`${A}/46986.svg`} alt="" />
         </button>
-        <RobotAvatar size={44} home />
+        <button className="profile-trigger" onClick={onProfile} aria-label="Open profile menu">
+          <RobotAvatar size={44} home />
+        </button>
       </div>
 
       <section className="welcome">
@@ -268,5 +382,27 @@ function Conversation({ onBack }: { onBack: () => void }) {
 
 export default function App() {
   const [view, setView] = useState<"home" | "conversation">("home");
-  return view === "home" ? <Home onStart={() => setView("conversation")} /> : <Conversation onBack={() => setView("home")} />;
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => window.localStorage.getItem("ai-didi-theme") === "dark");
+
+  useEffect(() => {
+    window.localStorage.setItem("ai-didi-theme", darkMode ? "dark" : "light");
+    document.documentElement.style.colorScheme = darkMode ? "dark" : "light";
+  }, [darkMode]);
+
+  return (
+    <div className={`app ${darkMode ? "dark" : ""}`}>
+      {view === "home" ? (
+        <Home onStart={() => setView("conversation")} onProfile={() => setDrawerOpen(true)} />
+      ) : (
+        <Conversation onBack={() => setView("home")} />
+      )}
+      <ProfileDrawer
+        open={drawerOpen}
+        darkMode={darkMode}
+        onClose={() => setDrawerOpen(false)}
+        onDarkModeChange={setDarkMode}
+      />
+    </div>
+  );
 }

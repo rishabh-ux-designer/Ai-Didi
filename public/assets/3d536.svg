@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Radio button">
+<path id="Ellipse 2" d="M15.5 8C15.5 12.1421 12.1421 15.5 8 15.5C3.85786 15.5 0.5 12.1421 0.5 8C0.5 3.85786 3.85786 0.5 8 0.5C12.1421 0.5 15.5 3.85786 15.5 8Z" fill="#292B31" stroke="white"/>
+<circle id="Ellipse 3" cx="8" cy="8" r="5.33333" fill="url(#paint0_linear_0_182)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_182" x1="3.43728" y1="3.59837" x2="11.6354" y2="11.618" gradientUnits="userSpaceOnUse">
+<stop stop-color="#9760F2"/>
+<stop offset="1" stop-color="#6A3BE4"/>
+</linearGradient>
+</defs>
+</svg>
