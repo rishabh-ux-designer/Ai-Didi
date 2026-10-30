@@ -93,7 +93,12 @@ function ProfileDrawer({
   return (
     <div className={`drawer-layer ${open ? "drawer-layer--open" : ""}`} aria-hidden={!open}>
       <button className="drawer-backdrop" onClick={onClose} aria-label="Close profile menu" tabIndex={open ? 0 : -1} />
-      <aside className="profile-drawer" aria-label="Profile and theme settings" aria-modal="true" role="dialog">
+      <aside
+        className={`profile-drawer ${darkMode ? "profile-drawer--dark" : ""}`}
+        aria-label="Profile and theme settings"
+        aria-modal="true"
+        role="dialog"
+      >
         <div className="drawer-content">
           <div className="drawer-top">
             <div className="drawer-current-profile">
@@ -105,7 +110,7 @@ function ProfileDrawer({
                 </div>
               </div>
               <button className="drawer-icon-button" aria-label="Edit profile">
-                <img src={`${A}/6c5a1.svg`} alt="" />
+                <img src={`${A}/${darkMode ? "6c5a1" : "c2cee"}.svg`} alt="" />
               </button>
             </div>
 
@@ -127,25 +132,29 @@ function ProfileDrawer({
                       {profile.avatar === "robot" ? <RobotAvatar size={34} drawer /> : <GreenAvatar />}
                       <span>{profile.name}</span>
                     </span>
-                    <img src={`${A}/${selected ? "3d536" : "194f3"}.svg`} alt="" className="profile-radio" />
+                    <img
+                      src={`${A}/${darkMode ? (selected ? "3d536" : "194f3") : selected ? "e8d5a" : "c4f05"}.svg`}
+                      alt=""
+                      className="profile-radio"
+                    />
                   </button>
                 );
               })}
-              <button className="profile-option add-profile">
-                <span>Add Profile</span>
-                <img src={`${A}/c6492.svg`} alt="" />
-              </button>
             </div>
+            <button className="add-account">
+              <span>Add Account</span>
+              <img src={`${A}/eebb2.svg`} alt="" />
+            </button>
           </div>
 
           <nav className="drawer-nav" aria-label="Profile options">
             <button className="drawer-nav-item">
-              <img src={`${A}/f8019.svg`} alt="" className="plans-icon" />
+              <img src={`${A}/${darkMode ? "f8019" : "f1a78"}.svg`} alt="" className="plans-icon" />
               <span>Plans and History</span>
             </button>
             <div className="drawer-nav-item theme-row">
               <span className="theme-label">
-                <img src={`${A}/3d5bf.svg`} alt="" />
+                <img src={`${A}/${darkMode ? "3d5bf" : "85f3a"}.svg`} alt="" />
                 <span>Theme Dark Mode</span>
               </span>
               <button
@@ -155,8 +164,7 @@ function ProfileDrawer({
                 aria-checked={darkMode}
                 aria-label="Dark mode"
               >
-                {darkMode && <img src={`${A}/8e1c0.svg`} alt="" />}
-                {!darkMode && <span className="toggle-knob" />}
+                <img src={`${A}/${darkMode ? "8e1c0" : "83db2"}.svg`} alt="" />
               </button>
             </div>
           </nav>
@@ -319,7 +327,8 @@ function Conversation({ onBack }: { onBack: () => void }) {
     <main className="screen conversation-screen">
       <header className="conversation-header">
         <button className="back-button" onClick={onBack} aria-label="Back to home">
-          <img src={`${A}/9d775.svg`} alt="" />
+          <img src={`${A}/9d775.svg`} alt="" className="back-icon back-icon--light" />
+          <img src={`${A}/104e3.svg`} alt="" className="back-icon back-icon--dark" />
         </button>
         <span className="timer">{time}</span>
       </header>
@@ -354,7 +363,9 @@ function Conversation({ onBack }: { onBack: () => void }) {
         {stage >= 7 && (
           <div className="message-row message-row--didi thinking-row">
             <DidiAvatar />
-            <div className="thinking">Thinking....</div>
+            <div className="thinking">
+              <span>Thinking....</span>
+            </div>
           </div>
         )}
         {liveText && !muted && (
