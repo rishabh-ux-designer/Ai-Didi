@@ -1530,7 +1530,7 @@ button.drawer-nav-item {
   line-height: 22px;
 }
 
-.preview-message > span:not(.didi-avatar):not(.robot-avatar) {
+.preview-message > span:not(.didi-avatar):not(.robot-avatar):not(.account-avatar) {
   padding: 12px;
   backdrop-filter: blur(12px);
 }

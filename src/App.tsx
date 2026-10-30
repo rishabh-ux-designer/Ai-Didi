@@ -406,7 +406,7 @@ function UserMessage({ children }: { children: React.ReactNode }) {
   return (
     <div className="message-row message-row--user">
       <div className="bubble bubble--user">{children}</div>
-      <RobotAvatar />
+      <AccountRobotAvatar size={34} />
     </div>
   );
 }
@@ -516,8 +516,8 @@ function Conversation({ onBack }: { onBack: () => void }) {
       </header>
 
       <div className="message-feed" ref={feedRef} aria-live="polite">
-        {stage >= 1 && <UserMessage>Hii</UserMessage>}
-        {stage >= 2 && <DidiMessage>Hii</DidiMessage>}
+        {stage >= 1 && <DidiMessage>Hii</DidiMessage>}
+        {stage >= 2 && <UserMessage>Hii</UserMessage>}
         {stage >= 3 && <UserMessage>what is Vegetables</UserMessage>}
         {stage >= 4 && (
           <DidiMessage>
