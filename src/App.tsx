@@ -179,7 +179,8 @@ function Home({ onStart, onProfile }: { onStart: () => void; onProfile: () => vo
     <main className="screen home-screen">
       <div className="home-header">
         <button className="plain-button back-home" aria-label="Go back">
-          <img src={`${A}/46986.svg`} alt="" />
+          <img src={`${A}/46986.svg`} alt="" className="back-home-icon back-home-icon--light" />
+          <img src={`${A}/104e3.svg`} alt="" className="back-home-icon back-home-icon--dark" />
         </button>
         <button className="profile-trigger" onClick={onProfile} aria-label="Open profile menu">
           <RobotAvatar size={44} home />
