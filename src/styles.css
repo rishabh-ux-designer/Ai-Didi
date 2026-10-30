@@ -27,6 +27,20 @@
 }
 
 @font-face {
+  font-family: "Nunito:Bold";
+  src: url("https://static.figma.com/font/Nunito_wght__1") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Nunito:ExtraBold";
+  src: url("https://static.figma.com/font/Nunito_wght__1") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+}
+
+@font-face {
   font-family: "Outfit:Medium";
   src: url("/fonts/Outfit-Medium.woff2") format("woff2");
   font-style: normal;
@@ -38,6 +52,13 @@
   src: url("/fonts/Outfit-SemiBold.woff2") format("woff2");
   font-style: normal;
   font-weight: 600;
+}
+
+@font-face {
+  font-family: "Outfit:Bold";
+  src: url("/fonts/Outfit-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
 }
 
 @font-face {
@@ -234,20 +255,131 @@ button:focus-visible {
   transform: rotate(180deg);
 }
 
+.profile-avatar {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+}
+
+.profile-avatar img {
+  position: absolute;
+}
+
+.profile-avatar-base {
+  inset: 0;
+}
+
+.profile-avatar-crown {
+  top: 8.82%;
+  left: 26.63%;
+}
+
+.profile-avatar-body {
+  top: 25.38%;
+  left: 23.1%;
+}
+
+.profile-avatar-brow {
+  top: 26.92%;
+}
+
+.profile-avatar-brow--left {
+  left: 28.57%;
+  transform: scaleX(-1) rotate(-24.41deg);
+}
+
+.profile-avatar-brow--right {
+  left: 51.5%;
+  transform: rotate(24.41deg);
+}
+
+.profile-avatar-eye {
+  top: 39.86%;
+}
+
+.profile-avatar-eye--left {
+  left: 36.68%;
+}
+
+.profile-avatar-eye--right {
+  left: 51.1%;
+}
+
+.profile-avatar-mouth {
+  top: 57.45%;
+  left: 30.48%;
+  transform: rotate(180deg);
+}
+
+.account-avatar,
 .green-avatar {
   position: relative;
   display: inline-block;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  flex: 0 0 auto;
 }
 
+.account-avatar-inner,
+.green-avatar-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  transform-origin: top left;
+}
+
+.account-avatar img,
 .green-avatar img {
   position: absolute;
 }
 
+.account-avatar-base,
 .green-base {
   inset: 0;
+}
+
+.account-avatar-crown {
+  top: 8.82%;
+  left: 26.63%;
+}
+
+.account-avatar-body {
+  top: 25.38%;
+  left: 23.1%;
+}
+
+.account-avatar-brow {
+  top: 26.92%;
+}
+
+.account-avatar-brow--left {
+  left: 28.57%;
+  transform: scaleX(-1) rotate(-24.41deg);
+}
+
+.account-avatar-brow--right {
+  left: 51.5%;
+  transform: rotate(24.41deg);
+}
+
+.account-avatar-eye {
+  top: 39.86%;
+}
+
+.account-avatar-eye--left {
+  left: 36.68%;
+}
+
+.account-avatar-eye--right {
+  left: 51.1%;
+}
+
+.account-avatar-mouth {
+  top: 57.45%;
+  left: 30.48%;
+  transform: rotate(180deg);
 }
 
 .green-face {
@@ -568,6 +700,204 @@ button.drawer-nav-item {
 
 .profile-drawer--dark .drawer-nav-item {
   color: #fff;
+}
+
+.profile-drawer {
+  width: 250px;
+  padding: 28px 20px;
+  border-left: 0;
+  box-shadow: -6px -1px 34.1px rgba(0, 0, 0, 0.07);
+}
+
+.drawer-content {
+  width: 100%;
+  gap: 12px;
+}
+
+.drawer-top {
+  gap: 12px;
+}
+
+.drawer-title {
+  margin: 0;
+  color: #101828;
+  font-family: "Outfit:SemiBold", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.drawer-profile-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #f4f4f4;
+}
+
+.drawer-profile-card .drawer-user-copy {
+  min-width: 0;
+  flex: 1;
+  gap: 6px;
+}
+
+.drawer-profile-card .drawer-user-copy strong {
+  overflow: hidden;
+  color: #101828;
+  font-family: "Outfit:Medium", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  text-overflow: ellipsis;
+}
+
+.drawer-profile-card .drawer-user-copy span {
+  color: #667085;
+  font-family: "Nunito:Regular", sans-serif;
+}
+
+.drawer-profile-card .drawer-icon-button {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.drawer-section-title {
+  margin: 0;
+  color: #101828;
+  font-family: "Nunito:ExtraBold", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.profile-list {
+  gap: 4px;
+}
+
+.profile-option {
+  height: 64px;
+  padding: 12px;
+  border: 1px solid #fff;
+  border-radius: 14px;
+}
+
+.profile-option--selected {
+  border-color: #d6e7fc;
+  background: #eff6ff;
+}
+
+.account-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+.profile-option-user > .account-copy {
+  font-family: "Nunito:Regular", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  line-height: 20px;
+}
+
+.account-copy strong {
+  font: inherit;
+  font-weight: 400;
+}
+
+.profile-option--selected .account-copy strong {
+  font-family: "Nunito:Bold", sans-serif;
+  font-weight: 700;
+}
+
+.account-copy small {
+  color: #3278d3;
+  font-family: "Nunito:Bold", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.profile-radio {
+  width: 20px;
+  height: 20px;
+}
+
+.add-account span {
+  font-family: "Nunito:ExtraBold", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.drawer-nav {
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #edf0f5;
+}
+
+.drawer-nav-item {
+  height: 52px;
+  min-height: 52px;
+  padding: 0;
+}
+
+.drawer-nav-item > span:not(.drawer-action-icon) {
+  min-width: 0;
+  flex: 1;
+}
+
+.drawer-action-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+}
+
+.drawer-action-icon--font {
+  display: grid;
+  border-radius: 50%;
+  background: #f7f9fc;
+  place-items: center;
+}
+
+.drawer-chevron {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.theme-row {
+  gap: 12px;
+}
+
+.theme-toggle {
+  height: 22px;
+}
+
+.profile-drawer--dark .drawer-title,
+.profile-drawer--dark .drawer-section-title,
+.profile-drawer--dark .drawer-profile-card .drawer-user-copy strong {
+  color: #fff;
+}
+
+.profile-drawer--dark .drawer-profile-card,
+.profile-drawer--dark .profile-option {
+  background: #24262c;
+}
+
+.profile-drawer--dark .profile-option--selected {
+  border-color: #4f93ea;
+  background: #263850;
+}
+
+.profile-drawer--dark .drawer-nav {
+  border-top-color: #424242;
 }
 
 .welcome {
@@ -1043,6 +1373,337 @@ button.drawer-nav-item {
 
 .voice-dock--muted .mic-badge {
   background: #b8261b;
+}
+
+.background-green .screen {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url("/assets/ae8f9.png");
+}
+
+.background-pink .screen {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("/assets/5097c.png");
+}
+
+.font-small .bubble,
+.font-small .live-transcript {
+  font-size: 14px;
+}
+
+.font-medium .bubble,
+.font-medium .live-transcript {
+  font-size: 16px;
+}
+
+.font-large .bubble,
+.font-large .live-transcript {
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.appearance-screen {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #fff;
+  color: #101828;
+}
+
+.appearance-header {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  height: 76px;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px 8px;
+  background: linear-gradient(#fff 59%, rgba(255, 255, 255, 0));
+}
+
+.appearance-header h1 {
+  margin: 0;
+  color: #191a1e;
+  font-family: "Outfit:Bold", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.appearance-back {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+  border-radius: 50%;
+  background: #f1f1f1;
+  cursor: pointer;
+  place-items: center;
+}
+
+.appearance-content {
+  position: absolute;
+  top: 76px;
+  right: 0;
+  bottom: 112px;
+  left: 0;
+  display: flex;
+  width: min(100%, 712px);
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 auto;
+  padding: 4px 16px 20px;
+  overflow-y: auto;
+}
+
+.appearance-section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.preview-section {
+  gap: 10px;
+}
+
+.appearance-section h2 {
+  margin: 0;
+  font-family: "Nunito:ExtraBold", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.appearance-section h3 {
+  margin: 0;
+  font-family: "Outfit:SemiBold", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.appearance-preview {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 188px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid #d6e7fc;
+  border-radius: 20px;
+  background-color: #fff;
+  background-position: center;
+  background-size: cover;
+}
+
+.appearance-preview--blue {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("/assets/8afd3.png");
+}
+
+.appearance-preview--green {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url("/assets/ae8f9.png");
+}
+
+.appearance-preview--pink {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("/assets/5097c.png");
+}
+
+.preview-message {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #272c4e;
+  font-family: "Nunito:Medium", sans-serif;
+  font-size: var(--preview-font-size);
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.preview-message > span:not(.didi-avatar):not(.robot-avatar) {
+  padding: 12px;
+  backdrop-filter: blur(12px);
+}
+
+.preview-message--didi {
+  align-self: flex-start;
+}
+
+.preview-message--didi > span:last-child {
+  border-radius: 4px 14px 14px;
+  background: #f4f4f4;
+}
+
+.preview-message--user {
+  align-self: flex-end;
+}
+
+.preview-message--user > span:first-child {
+  border-radius: 14px 14px 2px 14px;
+  background: #dcecfe;
+}
+
+.background-options {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.background-option {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #667085;
+  cursor: pointer;
+}
+
+.background-swatch {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 7px;
+  overflow: hidden;
+  border: 1px solid #e9edf3;
+  border-radius: 14px;
+  background-color: #fff;
+  background-position: center;
+  background-size: cover;
+}
+
+.background-option--selected .background-swatch {
+  border: 2px solid #4f93ea;
+  padding: 6px;
+}
+
+.background-option strong {
+  font-family: "Nunito:Medium", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.background-option--selected strong {
+  color: #3278d3;
+  font-family: "Nunito:Bold", sans-serif;
+  font-weight: 700;
+}
+
+.font-size-section {
+  gap: 10px;
+}
+
+.font-size-heading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.font-size-heading strong {
+  color: #3278d3;
+  font-family: "Nunito:Bold", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.font-size-options {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: 14px;
+  background: #f7f9fc;
+}
+
+.font-size-option {
+  display: flex;
+  height: 72px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid #f7f9fc;
+  border-radius: 11px;
+  background: #f7f9fc;
+  color: #667085;
+  font-family: "Nunito:Medium", sans-serif;
+  cursor: pointer;
+}
+
+.font-size-option--selected {
+  border-color: #abcbf2;
+  background: #fff;
+  color: #3278d3;
+}
+
+.font-size-option small {
+  font-size: 13px;
+}
+
+.font-size-section > p {
+  margin: 0;
+  color: #667085;
+  font-family: "Nunito:Regular", sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.appearance-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 24px;
+  border-top: 1px solid #e9edf3;
+  background: #fff;
+}
+
+.save-preferences {
+  width: min(100%, 680px);
+  height: 44px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 200px;
+  background: linear-gradient(172deg, #66affc 8%, #2d6edc 84%);
+  box-shadow: 0 5px 5.85px rgba(55, 141, 255, 0.38);
+  color: #fff;
+  font-family: "Fredoka:Medium", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.reset-preferences {
+  border: 0;
+  background: transparent;
+  color: #3278d3;
+  font-family: "Nunito:Bold", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .dark .screen {
