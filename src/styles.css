@@ -1128,13 +1128,20 @@ button.drawer-nav-item {
 }
 
 .message-row--user {
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
 }
 
 .message-row--didi {
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: flex-start;
+}
+
+.message-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .didi-avatar {
@@ -1158,7 +1165,7 @@ button.drawer-nav-item {
   object-position: center top;
 }
 
-.avatar-spacer {
+.message-avatar-spacer {
   width: 34px;
   flex: 0 0 34px;
 }
@@ -1183,16 +1190,20 @@ button.drawer-nav-item {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-radius: 4px 14px 14px;
+  border-radius: 14px 14px 14px 4px;
   background: #f4f4f4;
 }
 
-.message-row--continuation {
-  margin-top: -20px;
+.message-row--group-end .bubble--user {
+  border-radius: 14px 2px 14px 14px;
 }
 
-.message-row--continuation .bubble {
+.message-row--group-end .bubble--didi {
   border-radius: 2px 14px 14px 14px;
+}
+
+.message-row--video .bubble--didi {
+  border-radius: 14px 14px 14px 2px;
 }
 
 .video-card {

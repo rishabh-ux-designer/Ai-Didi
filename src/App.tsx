@@ -402,19 +402,37 @@ function DidiAvatar() {
   );
 }
 
-function UserMessage({ children }: { children: React.ReactNode }) {
+type MessagePosition = "single" | "group-start" | "group-end" | "video";
+
+function UserMessage({
+  children,
+  avatar = true,
+  position = "single",
+}: {
+  children: React.ReactNode;
+  avatar?: boolean;
+  position?: MessagePosition;
+}) {
   return (
-    <div className="message-row message-row--user">
+    <div className={`message-row message-row--user message-row--${position}`}>
       <div className="bubble bubble--user">{children}</div>
-      <AccountRobotAvatar size={34} />
+      {avatar ? <RobotAvatar size={34} /> : <span className="message-avatar-spacer" />}
     </div>
   );
 }
 
-function DidiMessage({ children, continuation = false }: { children: React.ReactNode; continuation?: boolean }) {
+function DidiMessage({
+  children,
+  avatar = true,
+  position = "single",
+}: {
+  children: React.ReactNode;
+  avatar?: boolean;
+  position?: MessagePosition;
+}) {
   return (
-    <div className={`message-row message-row--didi ${continuation ? "message-row--continuation" : ""}`}>
-      {continuation ? <span className="avatar-spacer" /> : <DidiAvatar />}
+    <div className={`message-row message-row--didi message-row--${position}`}>
+      {avatar ? <DidiAvatar /> : <span className="message-avatar-spacer" />}
       <div className="bubble bubble--didi">{children}</div>
     </div>
   );
@@ -516,31 +534,38 @@ function Conversation({ onBack }: { onBack: () => void }) {
       </header>
 
       <div className="message-feed" ref={feedRef} aria-live="polite">
-        {stage >= 1 && <DidiMessage>Hii</DidiMessage>}
-        {stage >= 2 && <UserMessage>Hii</UserMessage>}
-        {stage >= 3 && <UserMessage>what is Vegetables</UserMessage>}
+        {stage >= 1 && <UserMessage>Hii</UserMessage>}
+        {stage >= 2 && <DidiMessage>Hii</DidiMessage>}
+        {stage >= 3 && (
+          <div className="message-group message-group--user">
+            <UserMessage avatar={false} position="group-start">
+              what is Vegetables
+            </UserMessage>
+            <UserMessage position="group-end">Tell me in detailed</UserMessage>
+          </div>
+        )}
         {stage >= 4 && (
-          <DidiMessage>
-            Sure! Vegetables are essential for a healthy diet. They are packed with vitamins, minerals, and fiber.
-            Eating a variety of vegetables can help reduce the risk of chronic diseases and improve overall health.
-            Would you like to know about specific types or benefits?
-          </DidiMessage>
+          <div className="message-group message-group--didi">
+            <DidiMessage avatar={false} position="group-start">
+              Sure! Vegetables are essential for a healthy diet. They are packed with vitamins, minerals, and fiber.
+              Eating a variety of vegetables can help reduce the risk of chronic diseases and improve overall health.
+              Would you like to know about specific types or benefits?
+            </DidiMessage>
+            <DidiMessage position="group-end">They are packed with vitamins, minerals, and fiber.</DidiMessage>
+          </div>
         )}
         {stage >= 5 && <UserMessage>Share video also</UserMessage>}
         {stage >= 6 && (
-          <>
-            <DidiMessage>
-              <span>Here is the video</span>
-              <button className="video-card" aria-label="Play vegetable video">
-                <img src={`${A}/video-preview.png`} alt="Vegetables arranged on a table" />
-                <span className="video-shade" />
-                <span className="play-button">
-                  <img src={`${A}/be3af.svg`} alt="" />
-                </span>
-              </button>
-            </DidiMessage>
-            <DidiMessage continuation>They are packed with vitamins, minerals, and fiber.</DidiMessage>
-          </>
+          <DidiMessage position="video">
+            <span>Here is the video</span>
+            <button className="video-card" aria-label="Play vegetable video">
+              <img src={`${A}/video-preview.png`} alt="Vegetables arranged on a table" />
+              <span className="video-shade" />
+              <span className="play-button">
+                <img src={`${A}/be3af.svg`} alt="" />
+              </span>
+            </button>
+          </DidiMessage>
         )}
         {stage >= 7 && (
           <div className="message-row message-row--didi thinking-row">
