@@ -177,7 +177,7 @@ button:focus-visible {
 }
 
 .robot-avatar--home {
-  overflow: visible;
+  overflow: hidden;
   border: 2px solid #f5bc4a;
   background: #fff8e7;
   box-shadow: 0 0 15.7px rgba(255, 170, 0, 0.53);
@@ -225,12 +225,13 @@ button:focus-visible {
 
 .robot-brow--left {
   left: 12.6px;
-  transform: scaleX(-1) rotate(-24deg);
+  transform: scaleX(-1) rotate(-24.41deg);
 }
 
 .robot-brow--right {
-  right: 12.6px;
-  transform: rotate(24deg);
+  right: auto;
+  left: 22.7px;
+  transform: rotate(24.41deg);
 }
 
 .robot-eye {
@@ -244,12 +245,13 @@ button:focus-visible {
 }
 
 .robot-eye--right {
-  right: 16.1px;
+  right: auto;
+  left: 22.5px;
 }
 
 .robot-mouth {
   top: 25.3px;
-  left: 15.4px;
+  left: 13.4px;
   width: 17.1px;
   height: 3.4px;
   transform: rotate(180deg);

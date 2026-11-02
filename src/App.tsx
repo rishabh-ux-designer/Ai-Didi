@@ -124,8 +124,8 @@ function RobotAvatar({
       : ["7547e", "86644", "04c18", "3c0bd", "cb9d3", "96cb3", "033e6"];
   return (
     <span className={`robot-avatar ${home ? "robot-avatar--home" : ""}`} style={{ width: size, height: size }}>
-      <img src={`${A}/${assets[0]}.svg`} alt="" className="robot-base" />
       <span className="robot-parts" style={{ transform: `scale(${scale})` }}>
+        <img src={`${A}/${assets[0]}.svg`} alt="" className="robot-base" />
         <img src={`${A}/${assets[1]}.svg`} alt="" className="robot-crown" />
         <img src={`${A}/${assets[2]}.svg`} alt="" className="robot-body" />
         <img src={`${A}/${assets[3]}.svg`} alt="" className="robot-brow robot-brow--left" />
