@@ -460,8 +460,8 @@ function Conversation({ onBack }: { onBack: () => void }) {
   const feedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (muted || stage >= 7) return;
-    const timer = window.setTimeout(() => setStage((value) => Math.min(value + 1, 7)), stage === 1 ? 950 : 1350);
+    if (muted || stage >= 9) return;
+    const timer = window.setTimeout(() => setStage((value) => Math.min(value + 1, 9)), stage === 1 ? 950 : 1350);
     return () => window.clearTimeout(timer);
   }, [muted, stage]);
 
@@ -538,24 +538,26 @@ function Conversation({ onBack }: { onBack: () => void }) {
         {stage >= 2 && <DidiMessage>Hii</DidiMessage>}
         {stage >= 3 && (
           <div className="message-group message-group--user">
-            <UserMessage avatar={false} position="group-start">
+            <UserMessage avatar={stage === 3} position={stage >= 4 ? "group-start" : "single"}>
               what is Vegetables
             </UserMessage>
-            <UserMessage position="group-end">Tell me in detailed</UserMessage>
+            {stage >= 4 && <UserMessage position="group-end">Tell me in detailed</UserMessage>}
           </div>
         )}
-        {stage >= 4 && (
+        {stage >= 5 && (
           <div className="message-group message-group--didi">
-            <DidiMessage avatar={false} position="group-start">
+            <DidiMessage avatar={stage === 5} position={stage >= 6 ? "group-start" : "single"}>
               Sure! Vegetables are essential for a healthy diet. They are packed with vitamins, minerals, and fiber.
               Eating a variety of vegetables can help reduce the risk of chronic diseases and improve overall health.
               Would you like to know about specific types or benefits?
             </DidiMessage>
-            <DidiMessage position="group-end">They are packed with vitamins, minerals, and fiber.</DidiMessage>
+            {stage >= 6 && (
+              <DidiMessage position="group-end">They are packed with vitamins, minerals, and fiber.</DidiMessage>
+            )}
           </div>
         )}
-        {stage >= 5 && <UserMessage>Share video also</UserMessage>}
-        {stage >= 6 && (
+        {stage >= 7 && <UserMessage>Share video also</UserMessage>}
+        {stage >= 8 && (
           <DidiMessage position="video">
             <span>Here is the video</span>
             <button className="video-card" aria-label="Play vegetable video">
@@ -567,7 +569,7 @@ function Conversation({ onBack }: { onBack: () => void }) {
             </button>
           </DidiMessage>
         )}
-        {stage >= 7 && (
+        {stage >= 9 && (
           <div className="message-row message-row--didi thinking-row">
             <DidiAvatar />
             <div className="thinking">
