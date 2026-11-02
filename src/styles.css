@@ -1018,6 +1018,197 @@ button.drawer-nav-item {
   white-space: nowrap;
 }
 
+.home-screen--resume .welcome {
+  top: 25.125%;
+}
+
+.home-resume-content {
+  position: absolute;
+  top: 47.75%;
+  left: 50%;
+  display: flex;
+  width: min(calc(100% - 32px), 680px);
+  flex-direction: column;
+  gap: 22px;
+  transform: translateX(-50%);
+}
+
+.resume-section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-section h2 {
+  margin: 0;
+  color: #1d2939;
+  font-family: "Nunito:SemiBold", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.resume-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e7f5fc;
+}
+
+.resume-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+}
+
+.resume-topic-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 12px;
+  background: #fff;
+  place-items: center;
+}
+
+.resume-topic-icon img {
+  width: 22px;
+  height: 22px;
+}
+
+.resume-topic-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.resume-topic-copy strong {
+  width: 100%;
+  overflow: hidden;
+  color: #1d2939;
+  font-family: "Outfit:SemiBold", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-topic-copy small {
+  width: 100%;
+  overflow: hidden;
+  color: #5d5d5d;
+  font-family: "Nunito:Regular", sans-serif;
+  font-size: 12px;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-percent {
+  color: #1477ff;
+  font-family: "Outfit:Bold", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.resume-progress {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 100px;
+  background: #c8daf5;
+}
+
+.resume-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(178deg, #66affc 8%, #2d6edc 84%);
+  transition: width 300ms ease;
+}
+
+.resume-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.resume-time {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  color: #1477ff;
+  font-family: "Nunito:Medium", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.resume-time img {
+  flex: 0 0 auto;
+}
+
+.resume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 100px;
+  background: linear-gradient(163deg, #66affc 8%, #2d6edc 84%);
+  color: #fff;
+  font-family: "Nunito:Bold", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.home-resume-content .topics {
+  position: static;
+  width: 100%;
+  transform: none;
+}
+
+.home-resume-content .topics h2 {
+  margin-bottom: 8px;
+  color: #1d2939;
+  text-align: left;
+}
+
+.home-resume-content .topic-grid {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.home-resume-content .topic-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.home-resume-content .topic-card {
+  min-width: calc((100% - 12px) / 2);
+  flex: 0 0 calc((100% - 12px) / 2);
+  scroll-snap-align: start;
+}
+
 .talk-cta {
   position: absolute;
   z-index: 3;
@@ -1751,6 +1942,22 @@ button.drawer-nav-item {
   color: #f5f6fa;
 }
 
+.dark .resume-section h2 {
+  color: #f5f6fa;
+}
+
+.dark .resume-card {
+  background: #162c3a;
+}
+
+.dark .resume-topic-copy strong {
+  color: #f5f6fa;
+}
+
+.dark .resume-topic-copy small {
+  color: #c7d1dc;
+}
+
 .dark .topic-card {
   box-shadow: none;
 }
@@ -1945,6 +2152,15 @@ button.drawer-nav-item {
 
   .topics {
     top: 36%;
+  }
+
+  .home-screen--resume .welcome {
+    top: 18%;
+  }
+
+  .home-resume-content {
+    top: 32%;
+    gap: 12px;
   }
 
   .topic-card {

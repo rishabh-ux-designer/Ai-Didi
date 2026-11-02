@@ -29,16 +29,83 @@ declare global {
   }
 }
 
-const topics = [
-  { icon: "c98f2.svg", title: "Explore space", detail: "Moons & stars", tone: "lilac" },
-  { icon: "e148e.svg", title: "Animal wonders", detail: "Paws & roars", tone: "mint" },
-  { icon: "8006a.svg", title: "Number fun", detail: "Count & play", tone: "peach" },
-  { icon: "044fd.svg", title: "Story time", detail: "Imagine a world", tone: "blue" },
+type TopicId = "space" | "animals" | "numbers" | "stories";
+
+const topics: Array<{ id: TopicId; icon: string; resumeIcon: string; title: string; detail: string; tone: string }> = [
+  { id: "space", icon: "c98f2.svg", resumeIcon: "23cc3.svg", title: "Explore space", detail: "Moons & stars", tone: "lilac" },
+  { id: "animals", icon: "e148e.svg", resumeIcon: "e148e.svg", title: "Animal wonders", detail: "Paws & roars", tone: "mint" },
+  { id: "numbers", icon: "8006a.svg", resumeIcon: "8006a.svg", title: "Number fun", detail: "Count & play", tone: "peach" },
+  { id: "stories", icon: "044fd.svg", resumeIcon: "044fd.svg", title: "Story time", detail: "Imagine a world", tone: "blue" },
 ];
+
+const topicChats: Record<
+  TopicId,
+  {
+    childGreeting: string;
+    didiGreeting: string;
+    question: string;
+    followUp: string;
+    answer: string;
+    shortAnswer: string;
+    mediaRequest: string;
+    mediaTitle: string;
+  }
+> = {
+  space: {
+    childGreeting: "Hi Didi!",
+    didiGreeting: "Hello, little explorer!",
+    question: "Why does the Moon glow?",
+    followUp: "Can people live there?",
+    answer:
+      "The Moon does not make its own light. It looks bright because sunlight bounces off its rocky surface. Astronauts can visit, but they need spacesuits, air, water, and safe shelters.",
+    shortAnswer: "A day on the Moon lasts about 29 Earth days.",
+    mediaRequest: "Show me a space video",
+    mediaTitle: "Here is a Moon mission video",
+  },
+  animals: {
+    childGreeting: "Hello Didi!",
+    didiGreeting: "Hi, animal detective!",
+    question: "Why do cats purr?",
+    followUp: "Do big cats purr too?",
+    answer:
+      "Cats often purr when they feel safe and happy, but they may also purr to calm themselves. Their voice box vibrates gently as they breathe in and out.",
+    shortAnswer: "Cheetahs can purr, while lions and tigers roar instead.",
+    mediaRequest: "Show me an animal video",
+    mediaTitle: "Here is a playful cat video",
+  },
+  numbers: {
+    childGreeting: "Let’s play!",
+    didiGreeting: "Number challenge ready!",
+    question: "What is 7 plus 5?",
+    followUp: "Can you show me a trick?",
+    answer:
+      "Seven plus five is twelve. Try making ten first: move three from the five beside seven. Seven plus three is ten, and two more makes twelve.",
+    shortAnswer: "The make-ten trick helps you add quickly in your head.",
+    mediaRequest: "Give me another challenge",
+    mediaTitle: "Try this: what is 9 plus 6?",
+  },
+  stories: {
+    childGreeting: "Story time!",
+    didiGreeting: "Let’s imagine a new world!",
+    question: "Tell me about a tiny dragon",
+    followUp: "Was the dragon brave?",
+    answer:
+      "A tiny dragon named Miso lived inside a teapot. One windy night, Miso flew out to return a lost star to the sky, even though the clouds looked enormous.",
+    shortAnswer: "Miso learned that being brave means trying even when you feel small.",
+    mediaRequest: "Continue the story",
+    mediaTitle: "The star lit a silver path all the way home.",
+  },
+};
 
 type BackgroundChoice = "blue" | "green" | "pink";
 type FontSizeChoice = "small" | "medium" | "large";
 type AppView = "home" | "conversation" | "font-background";
+type ResumeSession = {
+  topicId: TopicId;
+  stage: number;
+  elapsed: number;
+  updatedAt: number;
+};
 
 function RobotAvatar({
   size = 34,
@@ -236,9 +303,84 @@ function ProfileDrawer({
   );
 }
 
-function Home({ onStart, onProfile }: { onStart: () => void; onProfile: () => void }) {
+function formatElapsed(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+}
+
+function ResumeCard({ session, onResume }: { session: ResumeSession; onResume: () => void }) {
+  const topic = topics.find((item) => item.id === session.topicId)!;
+  const progress = Math.max(10, Math.min(100, Math.round((session.stage / 9) * 100)));
+  const chapter = Math.max(1, Math.ceil(session.stage / 3));
+
   return (
-    <main className="screen home-screen">
+    <section className="resume-section" aria-labelledby="resume-heading">
+      <h2 id="resume-heading">Continue where you left off</h2>
+      <div className="resume-card">
+        <div className="resume-header">
+          <span className="resume-topic-icon">
+            <img src={`${A}/${topic.resumeIcon}`} alt="" />
+          </span>
+          <span className="resume-topic-copy">
+            <strong>{topic.title}</strong>
+            <small>
+              {topic.detail} · Chapter {chapter}
+            </small>
+          </span>
+          <strong className="resume-percent">{progress}%</strong>
+        </div>
+        <div className="resume-progress" aria-label={`${progress}% complete`}>
+          <span style={{ width: `${progress}%` }} />
+        </div>
+        <div className="resume-footer">
+          <span className="resume-time">
+            <img src={`${A}/71870.svg`} alt="" />
+            Spent {formatElapsed(session.elapsed)}
+          </span>
+          <button className="resume-button" onClick={onResume}>
+            Resume
+            <img src={`${A}/9491a.svg`} alt="" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Home({
+  onStart,
+  onProfile,
+  resumeSession,
+  onResume,
+}: {
+  onStart: (topicId: TopicId) => void;
+  onProfile: () => void;
+  resumeSession: ResumeSession | null;
+  onResume: () => void;
+}) {
+  const chooseRandomTopic = () => topics[Math.floor(Math.random() * topics.length)].id;
+  const topicSection = (
+    <section className={`topics ${resumeSession ? "topics--resume" : ""}`} aria-labelledby="topic-title">
+      <h2 id="topic-title">Pick something you’re curious about</h2>
+      <div className="topic-grid">
+        {topics.map((topic) => (
+          <button
+            className={`topic-card topic-card--${topic.tone}`}
+            key={topic.id}
+            onClick={() => onStart(topic.id)}
+          >
+            <img src={`${A}/${topic.icon}`} alt="" />
+            <strong>{topic.title}</strong>
+            <span>{topic.detail}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+
+  return (
+    <main className={`screen home-screen ${resumeSession ? "home-screen--resume" : ""}`}>
       <div className="home-header">
         <button className="plain-button back-home" aria-label="Go back">
           <img src={`${A}/46986.svg`} alt="" className="back-home-icon back-home-icon--light" />
@@ -250,24 +392,20 @@ function Home({ onStart, onProfile }: { onStart: () => void; onProfile: () => vo
       </div>
 
       <section className="welcome">
-        <p>Welcome back, Rishabh</p>
+        <p>{resumeSession ? "Good Morning, Rishabh" : "Welcome back, Rishabh"}</p>
         <h1>How can i help ?</h1>
       </section>
 
-      <section className="topics" aria-labelledby="topic-title">
-        <h2 id="topic-title">Pick something you’re curious about</h2>
-        <div className="topic-grid">
-          {topics.map((topic) => (
-            <button className={`topic-card topic-card--${topic.tone}`} key={topic.title} onClick={onStart}>
-              <img src={`${A}/${topic.icon}`} alt="" />
-              <strong>{topic.title}</strong>
-              <span>{topic.detail}</span>
-            </button>
-          ))}
+      {resumeSession ? (
+        <div className="home-resume-content">
+          <ResumeCard session={resumeSession} onResume={onResume} />
+          {topicSection}
         </div>
-      </section>
+      ) : (
+        topicSection
+      )}
 
-      <button className="talk-cta" onClick={onStart}>
+      <button className="talk-cta" onClick={() => onStart(chooseRandomTopic())}>
         <span>Let&apos;s Talk</span>
         <img src={`${A}/38eaf.svg`} alt="" />
       </button>
@@ -451,13 +589,24 @@ function MuteIcon({ muted }: { muted: boolean }) {
   );
 }
 
-function Conversation({ onBack }: { onBack: () => void }) {
+function Conversation({
+  topicId,
+  initialStage = 1,
+  initialElapsed = 0,
+  onBack,
+}: {
+  topicId: TopicId;
+  initialStage?: number;
+  initialElapsed?: number;
+  onBack: (session: Omit<ResumeSession, "topicId" | "updatedAt">) => void;
+}) {
   const [muted, setMuted] = useState(false);
-  const [stage, setStage] = useState(1);
+  const [stage, setStage] = useState(initialStage);
   const [liveText, setLiveText] = useState("");
-  const [elapsed, setElapsed] = useState(10);
+  const [elapsed, setElapsed] = useState(initialElapsed);
   const recognitionRef = useRef<Recognition | null>(null);
   const feedRef = useRef<HTMLDivElement>(null);
+  const script = topicChats[topicId];
 
   useEffect(() => {
     if (muted || stage >= 9) return;
@@ -526,7 +675,7 @@ function Conversation({ onBack }: { onBack: () => void }) {
   return (
     <main className="screen conversation-screen">
       <header className="conversation-header">
-        <button className="back-button" onClick={onBack} aria-label="Back to home">
+        <button className="back-button" onClick={() => onBack({ stage, elapsed })} aria-label="Back to home">
           <img src={`${A}/9d775.svg`} alt="" className="back-icon back-icon--light" />
           <img src={`${A}/104e3.svg`} alt="" className="back-icon back-icon--dark" />
         </button>
@@ -534,32 +683,28 @@ function Conversation({ onBack }: { onBack: () => void }) {
       </header>
 
       <div className="message-feed" ref={feedRef} aria-live="polite">
-        {stage >= 1 && <UserMessage>Hii</UserMessage>}
-        {stage >= 2 && <DidiMessage>Hii</DidiMessage>}
+        {stage >= 1 && <UserMessage>{script.childGreeting}</UserMessage>}
+        {stage >= 2 && <DidiMessage>{script.didiGreeting}</DidiMessage>}
         {stage >= 3 && (
           <div className="message-group message-group--user">
             <UserMessage avatar={stage === 3} position={stage >= 4 ? "group-start" : "single"}>
-              what is Vegetables
+              {script.question}
             </UserMessage>
-            {stage >= 4 && <UserMessage position="group-end">Tell me in detailed</UserMessage>}
+            {stage >= 4 && <UserMessage position="group-end">{script.followUp}</UserMessage>}
           </div>
         )}
         {stage >= 5 && (
           <div className="message-group message-group--didi">
             <DidiMessage avatar={stage === 5} position={stage >= 6 ? "group-start" : "single"}>
-              Sure! Vegetables are essential for a healthy diet. They are packed with vitamins, minerals, and fiber.
-              Eating a variety of vegetables can help reduce the risk of chronic diseases and improve overall health.
-              Would you like to know about specific types or benefits?
+              {script.answer}
             </DidiMessage>
-            {stage >= 6 && (
-              <DidiMessage position="group-end">They are packed with vitamins, minerals, and fiber.</DidiMessage>
-            )}
+            {stage >= 6 && <DidiMessage position="group-end">{script.shortAnswer}</DidiMessage>}
           </div>
         )}
-        {stage >= 7 && <UserMessage>Share video also</UserMessage>}
+        {stage >= 7 && <UserMessage>{script.mediaRequest}</UserMessage>}
         {stage >= 8 && (
           <DidiMessage position="video">
-            <span>Here is the video</span>
+            <span>{script.mediaTitle}</span>
             <button className="video-card" aria-label="Play vegetable video">
               <img src={`${A}/video-preview.png`} alt="Vegetables arranged on a table" />
               <span className="video-shade" />
@@ -603,6 +748,16 @@ function Conversation({ onBack }: { onBack: () => void }) {
 export default function App() {
   const [view, setView] = useState<AppView>("home");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [activeTopic, setActiveTopic] = useState<TopicId>("space");
+  const [conversationStart, setConversationStart] = useState({ stage: 1, elapsed: 0 });
+  const [resumeSession, setResumeSession] = useState<ResumeSession | null>(() => {
+    try {
+      const saved = window.localStorage.getItem("ai-didi-resume-session");
+      return saved ? (JSON.parse(saved) as ResumeSession) : null;
+    } catch {
+      return null;
+    }
+  });
   const [darkMode, setDarkMode] = useState(() => window.localStorage.getItem("ai-didi-theme") === "dark");
   const [background, setBackground] = useState<BackgroundChoice>(
     () => (window.localStorage.getItem("ai-didi-background") as BackgroundChoice | null) ?? "blue",
@@ -621,9 +776,38 @@ export default function App() {
     window.localStorage.setItem("ai-didi-font-size", fontSize);
   }, [background, fontSize]);
 
+  useEffect(() => {
+    if (resumeSession) {
+      window.localStorage.setItem("ai-didi-resume-session", JSON.stringify(resumeSession));
+    } else {
+      window.localStorage.removeItem("ai-didi-resume-session");
+    }
+  }, [resumeSession]);
+
+  const startTopic = (topicId: TopicId, stage = 1, elapsed = 0) => {
+    setActiveTopic(topicId);
+    setConversationStart({ stage, elapsed });
+    setView("conversation");
+  };
+
   let page: React.ReactNode;
   if (view === "conversation") {
-    page = <Conversation onBack={() => setView("home")} />;
+    page = (
+      <Conversation
+        key={`${activeTopic}-${conversationStart.stage}-${conversationStart.elapsed}`}
+        topicId={activeTopic}
+        initialStage={conversationStart.stage}
+        initialElapsed={conversationStart.elapsed}
+        onBack={({ stage, elapsed }) => {
+          if (stage < 9) {
+            setResumeSession({ topicId: activeTopic, stage, elapsed, updatedAt: Date.now() });
+          } else {
+            setResumeSession(null);
+          }
+          setView("home");
+        }}
+      />
+    );
   } else if (view === "font-background") {
     page = (
       <FontBackgroundPage
@@ -638,7 +822,16 @@ export default function App() {
       />
     );
   } else {
-    page = <Home onStart={() => setView("conversation")} onProfile={() => setDrawerOpen(true)} />;
+    page = (
+      <Home
+        onStart={(topicId) => startTopic(topicId)}
+        onProfile={() => setDrawerOpen(true)}
+        resumeSession={resumeSession}
+        onResume={() => {
+          if (resumeSession) startTopic(resumeSession.topicId, resumeSession.stage, resumeSession.elapsed);
+        }}
+      />
+    );
   }
 
   return (
