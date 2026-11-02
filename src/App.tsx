@@ -53,7 +53,7 @@ const topicChats: Record<
 > = {
   space: {
     childGreeting: "Hi Didi!",
-    didiGreeting: "Hello, little explorer!",
+    didiGreeting: "Hii, little explorer!",
     question: "Why does the Moon glow?",
     followUp: "Can people live there?",
     answer:
@@ -64,7 +64,7 @@ const topicChats: Record<
   },
   animals: {
     childGreeting: "Hello Didi!",
-    didiGreeting: "Hi, animal detective!",
+    didiGreeting: "Hii, animal detective!",
     question: "Why do cats purr?",
     followUp: "Do big cats purr too?",
     answer:
@@ -75,7 +75,7 @@ const topicChats: Record<
   },
   numbers: {
     childGreeting: "Let’s play!",
-    didiGreeting: "Number challenge ready!",
+    didiGreeting: "Hii! Number challenge ready!",
     question: "What is 7 plus 5?",
     followUp: "Can you show me a trick?",
     answer:
@@ -86,7 +86,7 @@ const topicChats: Record<
   },
   stories: {
     childGreeting: "Story time!",
-    didiGreeting: "Let’s imagine a new world!",
+    didiGreeting: "Hii! Let’s imagine a new world!",
     question: "Tell me about a tiny dragon",
     followUp: "Was the dragon brave?",
     answer:
@@ -265,8 +265,10 @@ function ProfileDrawer({
               })}
             </div>
             <button className="add-account">
-              <span>Add Account</span>
-              <img src={`${A}/eebb2.svg`} alt="" />
+              <span className="add-account-label">Add Account</span>
+              <span className="add-account-icon" aria-hidden="true">
+                <img src={`${A}/eebb2.svg`} alt="" />
+              </span>
             </button>
           </div>
 
@@ -683,8 +685,8 @@ function Conversation({
       </header>
 
       <div className="message-feed" ref={feedRef} aria-live="polite">
-        {stage >= 1 && <UserMessage>{script.childGreeting}</UserMessage>}
-        {stage >= 2 && <DidiMessage>{script.didiGreeting}</DidiMessage>}
+        {stage >= 1 && <DidiMessage>{script.didiGreeting}</DidiMessage>}
+        {stage >= 2 && <UserMessage>{script.childGreeting}</UserMessage>}
         {stage >= 3 && (
           <div className="message-group message-group--user">
             <UserMessage avatar={stage === 3} position={stage >= 4 ? "group-start" : "single"}>

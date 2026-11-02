@@ -605,7 +605,7 @@ button:focus-visible {
   cursor: pointer;
 }
 
-.add-account span {
+.add-account-label {
   font-family: "Fredoka:Medium", sans-serif;
   font-size: 17px;
   font-weight: 500;
@@ -832,10 +832,26 @@ button.drawer-nav-item {
   height: 20px;
 }
 
-.add-account span {
+.add-account-label {
   font-family: "Nunito:ExtraBold", sans-serif;
   font-size: 15px;
   font-weight: 800;
+}
+
+.add-account-icon {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  overflow: hidden;
+}
+
+.add-account-icon img {
+  position: absolute;
+  top: 2.2px;
+  left: 4.3px;
+  width: 18.4px;
+  height: 21.7px;
 }
 
 .drawer-nav {
